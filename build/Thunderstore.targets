@@ -1,0 +1,25 @@
+<Project>
+  <!-- Stages only release files and this mod's DLL, then creates a local ZIP. -->
+  <Target Name="PackageMod" DependsOnTargets="Build">
+    <PropertyGroup>
+      <_PackageRunId>$([System.Guid]::NewGuid().ToString('N'))</_PackageRunId>
+      <_PackageStage>$(MSBuildProjectDirectory)/obj/thunderstore/$(_PackageRunId)</_PackageStage>
+      <_PackageOutput>$(MSBuildProjectDirectory)/artifacts/$(AssemblyName).zip</_PackageOutput>
+    </PropertyGroup>
+    <ItemGroup>
+      <_PackageFile Include="$(MSBuildProjectDirectory)/manifest.json" />
+      <_PackageFile Include="$(MSBuildProjectDirectory)/icon.png" />
+      <_PackageFile Include="$(MSBuildProjectDirectory)/README.md" />
+      <_PackageFile Include="$(MSBuildProjectDirectory)/CHANGELOG.md" />
+      <_PackageFile Include="$(MSBuildProjectDirectory)/LICENSE" />
+    </ItemGroup>
+    <Error Condition="'$(Configuration)' != 'Release'" Text="Package with -p:Configuration=Release." />
+    <Error Condition="!Exists('%(_PackageFile.Identity)')"
+           Text="Required package file is missing: %(_PackageFile.Identity)" />
+    <MakeDir Directories="$(_PackageStage)/BepInEx/plugins/$(AssemblyName);$(MSBuildProjectDirectory)/artifacts" />
+    <Copy SourceFiles="@(_PackageFile)" DestinationFolder="$(_PackageStage)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(_PackageStage)/BepInEx/plugins/$(AssemblyName)" />
+    <ZipDirectory SourceDirectory="$(_PackageStage)" DestinationFile="$(_PackageOutput)" Overwrite="true" />
+    <Message Importance="high" Text="Created $(_PackageOutput). Check icon, manifest, versions, and ZIP contents before release." />
+  </Target>
+</Project>

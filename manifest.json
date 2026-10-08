@@ -1,0 +1,9 @@
+{
+  "name": "Landoria.MapTeleport",
+  "version_number": "1.0.0",
+  "website_url": "",
+  "description": "Teleport to a map location by holding a configurable modifier key and clicking the map.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2351"
+  ]
+}
