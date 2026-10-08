@@ -18,7 +18,7 @@ namespace Landoria.MapTeleport
         // Installs the map click patch.
         private void Awake()
         {
-            TeleportKey = Config.Bind("Controls", "TeleportKey", ModifierKey.LeftAlt,
+            TeleportKey = Config.Bind("Controls", "TeleportKey", ModifierKey.LeftShift,
                 "Modifier held while left-clicking the large map: LeftAlt, LeftCtrl, or LeftShift.");
             MinimumTeleportDistance = Config.Bind("Teleport", "MinimumDistance", 200,
                 new ConfigDescription("Minimum map teleport distance in meters (100-1000).",
@@ -38,7 +38,7 @@ namespace Landoria.MapTeleport
         // Recreates the configuration with its defaults when its file is deleted.
         private void RestoreDefaults()
         {
-            TeleportKey.Value = ModifierKey.LeftAlt;
+            TeleportKey.Value = ModifierKey.LeftShift;
             MinimumTeleportDistance.Value = 200;
             Config.Save();
             ConfigWatcher.IgnoreCurrentFileVersion();

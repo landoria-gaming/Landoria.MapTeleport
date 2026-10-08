@@ -17,13 +17,19 @@ namespace Landoria.MapTeleport
             if (Player.m_localPlayer == null || WorldGenerator.instance == null ||
                 ZoneSystem.instance == null ||
                 !IsTeleportKeyHeld() ||
-                !TryGetMapPosition(__instance, out Vector3 destination) ||
-                !IsExplored(__instance, destination))
+                !TryGetMapPosition(__instance, out Vector3 destination))
             {
                 return true;
             }
 
             Player player = Player.m_localPlayer;
+            if (!IsExplored(__instance, destination))
+            {
+                player.Message(MessageHud.MessageType.Center,
+                    "You can only teleport to explored locations.");
+                return false;
+            }
+
             int minimumDistance = Plugin.MinimumTeleportDistance.Value;
             if (IsTooClose(player.transform.position, destination, minimumDistance))
             {
