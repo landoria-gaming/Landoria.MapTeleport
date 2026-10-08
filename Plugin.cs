@@ -12,6 +12,7 @@ namespace Landoria.MapTeleport
         public const string PluginName = "Landoria.MapTeleport";
         public const string PluginVersion = "1.0.0";
         internal static ConfigEntry<ModifierKey> TeleportKey { get; private set; }
+        internal static ConfigEntry<int> MinimumTeleportDistance { get; private set; }
         private Harmony _harmony;
 
         // Installs the map click patch.
@@ -19,6 +20,9 @@ namespace Landoria.MapTeleport
         {
             TeleportKey = Config.Bind("Controls", "TeleportKey", ModifierKey.LeftAlt,
                 "Modifier held while left-clicking the large map: LeftAlt, LeftCtrl, or LeftShift.");
+            MinimumTeleportDistance = Config.Bind("Teleport", "MinimumDistance", 200,
+                new ConfigDescription("Minimum map teleport distance in meters (100-1000).",
+                    new AcceptableValueRange<int>(100, 1000)));
             ConfigWatcher.Initialize(Config, Logger, "MapTeleport", RestoreDefaults);
             _harmony = new Harmony(PluginGuid);
             _harmony.PatchAll();
@@ -31,10 +35,11 @@ namespace Landoria.MapTeleport
             ConfigWatcher.Update();
         }
 
-        // Recreates the configuration with the default key when its file is deleted.
+        // Recreates the configuration with its defaults when its file is deleted.
         private void RestoreDefaults()
         {
             TeleportKey.Value = ModifierKey.LeftAlt;
+            MinimumTeleportDistance.Value = 200;
             Config.Save();
             ConfigWatcher.IgnoreCurrentFileVersion();
         }
@@ -45,6 +50,7 @@ namespace Landoria.MapTeleport
             ConfigWatcher.Dispose();
             _harmony?.UnpatchSelf();
             TeleportKey = null;
+            MinimumTeleportDistance = null;
         }
     }
 }

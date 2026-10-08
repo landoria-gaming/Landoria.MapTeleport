@@ -15,6 +15,7 @@ namespace Landoria.MapTeleport
         private static bool Prefix(Minimap __instance)
         {
             if (Player.m_localPlayer == null || WorldGenerator.instance == null ||
+                ZoneSystem.instance == null ||
                 !IsTeleportKeyHeld() ||
                 !TryGetMapPosition(__instance, out Vector3 destination) ||
                 !IsExplored(__instance, destination))
@@ -22,11 +23,51 @@ namespace Landoria.MapTeleport
                 return true;
             }
 
-            destination.y = WorldGenerator.instance.GetHeight(destination.x, destination.z);
             Player player = Player.m_localPlayer;
+            int minimumDistance = Plugin.MinimumTeleportDistance.Value;
+            if (IsTooClose(player.transform.position, destination, minimumDistance))
+            {
+                player.Message(MessageHud.MessageType.Center,
+                    $"Select a destination at least {minimumDistance} m away.");
+                return false;
+            }
+
+            if (!CanTeleport(player))
+            {
+                return false;
+            }
+
+            destination.y = WorldGenerator.instance.GetHeight(destination.x, destination.z);
             player.TeleportTo(destination, player.transform.rotation, distantTeleport: true);
             __instance.SetMapMode(Minimap.MapMode.Small);
             return false;
+        }
+
+        // Blocks teleportation while sensed or carrying restricted items.
+        private static bool CanTeleport(Player player)
+        {
+            if (player.IsSensed())
+            {
+                player.Message(MessageHud.MessageType.Center, "$msg_bedenemiesnearby");
+                return false;
+            }
+
+            if (!ZoneSystem.instance.GetGlobalKey(GlobalKeys.TeleportAll) &&
+                !player.IsTeleportable(false))
+            {
+                player.Message(MessageHud.MessageType.Center, "$msg_noteleport");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Compares map distance without including terrain height.
+        private static bool IsTooClose(Vector3 currentPosition, Vector3 destination, int minimumDistance)
+        {
+            float deltaX = destination.x - currentPosition.x;
+            float deltaZ = destination.z - currentPosition.z;
+            return deltaX * deltaX + deltaZ * deltaZ < minimumDistance * minimumDistance;
         }
 
         // Uses Valheim's own exploration check, including shared map progress.
