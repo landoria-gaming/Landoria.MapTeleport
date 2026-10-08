@@ -1,9 +1,17 @@
 # MapTeleport
 
-Teleport to an already explored location by holding Left Alt and clicking the
-large Valheim map. Exploration shared through Valheim's map sharing counts.
-The map closes after a teleport. Clicking unexplored terrain does not teleport;
-the click keeps its usual map behavior.
+Teleport to explored locations from Valheim's large map with a modifier-click.
+Shared exploration counts, and the map closes after teleporting.
+
+## Controls
+
+| Control | Action |
+| --- | --- |
+| `Left Alt + left-click` on the large map | Teleport to the clicked explored location. |
+
+The modifier key can be changed to `Left Ctrl` or `Left Shift` in the configuration.
+Clicking unexplored terrain keeps the usual map behavior. Teleporting has no
+moderator check, so use it only where the server's rules permit it.
 
 ## Configuration
 
@@ -12,11 +20,6 @@ After the first launch, edit `BepInEx/config/Landoria.MapTeleport.cfg` to set
 the default. Saving the file reloads the setting automatically while Valheim
 is running.
 
-## Installation
+## Contact
 
-Install BepInEx 5 and place `Landoria.MapTeleport.dll` in
-`BepInEx/plugins/Landoria.MapTeleport/` in your client profile. The mod only runs
-on the client; it does not need to be installed on the server.
-
-The teleport has no moderator or administrator check. Use it only where the
-server's rules permit teleportation.
+Report bugs through [GitHub Issues](https://github.com/landoria-gaming/Landoria.MapTeleport/issues).

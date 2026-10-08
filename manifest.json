@@ -5,5 +5,12 @@
   "description": "Teleport to a map location by holding a configurable modifier key and clicking the map.",
   "dependencies": [
     "denikson-BepInExPack_Valheim-5.4.2351"
+  ],
+  "categories": [
+    "deep-north-update",
+    "ai-generated",
+    "mods",
+    "client-side",
+    "utility"
   ]
 }
