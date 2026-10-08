@@ -20,4 +20,4 @@ The modifier key can be changed to `Left Ctrl` or `Left Alt` in the configuratio
 
 ## Contact
 
-Report bugs through [GitHub Issues](https://raw.githubusercontent.com/landoria-gaming/Landoria.NearbyStorage/refs/heads/main/Assets/screenshot.jpg).
+Report bugs through [GitHub Issues](https://github.com/landoria-gaming/Landoria.MapTeleport/issues).
