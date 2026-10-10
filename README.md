@@ -7,9 +7,9 @@ Shared exploration counts, and the map closes after teleporting.
 
 | Control | Action |
 | --- | --- |
-| `Left Shift + left-click` on the large map | Teleport to the clicked location. |
+| `Shift + click` on the large map | Teleport to the clicked location. |
 
-The modifier key can be changed to `Left Ctrl` or `Left Alt` in the configuration.
+The modifier key can be changed to `Ctrl` or `Alt` in the configuration.
 
 ## Teleport restrictions
 
